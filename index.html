@@ -3,89 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PROXY SERVER - Fast Access</title>
+    <title>PROXY SERVER — Fast Access</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-        body { background-color: #0b0e14; color: #fff; text-align: center; padding-bottom: 80px; }
-        header { background: #131822; padding: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222938; }
-        h1 { font-size: 18px; letter-spacing: 1px; color: #00ffcc; }
-        .live-badge { background: #e63946; color: #fff; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; }
-        .ticker { background: #00ffcc; color: #000; padding: 6px; font-weight: bold; font-size: 12px; overflow: hidden; white-space: nowrap; }
-        main { max-width: 500px; margin: 20px auto; padding: 0 15px; }
-        .card { background: #131822; border: 1px solid #222938; border-radius: 12px; padding: 20px; margin-bottom: 20px; text-align: left; }
-        .step-tag { font-size: 12px; color: #00ffcc; font-weight: bold; margin-bottom: 10px; }
-        video { width: 100%; border-radius: 8px; margin-top: 5px; }
-        .btn-install { display: block; width: 100%; background: linear-gradient(90deg, #00c6ff, #0072ff); color: #fff; text-decoration: none; text-align: center; padding: 15px; border-radius: 8px; font-weight: bold; font-size: 18px; margin-top: 15px; box-shadow: 0 4px 15px rgba(0,114,255,0.4); }
-        .app-info { display: flex; gap: 15px; margin-top: 15px; }
-        .app-info img { width: 60px; height: 60px; border-radius: 12px; }
-        .app-details h3 { font-size: 16px; margin-bottom: 4px; }
-        .app-details p { font-size: 12px; color: #a0aec0; }
-        .stats { display: flex; justify-content: space-around; margin-top: 15px; border-top: 1px solid #222938; padding-top: 15px; text-align: center; }
-        .stats div strong { display: block; font-size: 16px; color: #00ffcc; }
-        .stats div span { font-size: 11px; color: #a0aec0; }
-        .fixed-bottom { position: fixed; bottom: 0; left: 0; right: 0; background: #131822; padding: 12px; border-top: 1px solid #222938; }
-        .btn-bottom { display: block; max-width: 470px; margin: 0 auto; background: #25d366; color: #fff; text-decoration: none; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 16px; }
+        body { background-color: #08070b; color: #fff; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding-bottom: 50px; }
+        
+        /* Header */
+        header { width: 100%; max-width: 1100px; display: flex; justify-content: space-between; align-items: center; padding: 20px; background: rgba(19, 21, 31, 0.6); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .logo-area { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 18px; letter-spacing: 0.5px; }
+        .dots { display: flex; gap: 4px; }
+        .dots span { width: 8px; height: 8px; background: #ffc107; border-radius: 50%; display: inline-block; }
+        .dots span:nth-child(2) { background: #00ffcc; }
+        .dots span:nth-child(3) { background: #ff4757; }
+        .live-tag { background: rgba(255, 71, 87, 0.15); color: #ff4757; border: 1px solid rgba(255, 71, 87, 0.3); padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+        .live-tag::before { content: ''; width: 6px; height: 6px; background: #ff4757; border-radius: 50%; box-shadow: 0 0 8px #ff4757; }
+
+        /* Ticker Bar */
+        .ticker-wrap { width: 100%; overflow: hidden; background: #0c0a10; border-bottom: 1px solid rgba(255,255,255,0.05); padding: 10px 0; font-size: 12px; color: #a0aec0; letter-spacing: 1px; white-space: nowrap; }
+        .ticker-wrap span { margin: 0 20px; }
+        .ticker-wrap span.highlight { color: #ffc107; font-weight: 700; }
+
+        /* Main Container */
+        .main-container { width: 100%; max-width: 1050px; padding: 30px 15px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 30px; align-items: start; }
+        @media(max-width: 768px) { .main-container { grid-template-columns: 1fr; } }
+
+        /* Cards */
+        .card { background: rgba(16, 15, 22, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 24px; position: relative; backdrop-filter: blur(10px); }
+        .section-title { font-size: 11px; font-weight: 800; color: #ff4757; letter-spacing: 1.5px; margin-bottom: 15px; text-transform: uppercase; display: flex; align-items: center; gap: 6px; }
+        
+        /* Video Section */
+        .video-box { width: 100%; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); background: #000; position: relative; }
+        .video-box video { width: 100%; display: block; }
+        .video-live-badge { position: absolute; top: 12px; right: 12px; background: rgba(255, 71, 87, 0.9); color: #fff; font-size: 10px; font-weight: bold; padding: 3px 8px; border-radius: 4px; }
+
+        /* Right Side Panel */
+        .install-panel h2 { font-size: 24px; font-weight: 800; color: #fff; margin-bottom: 6px; }
+        .install-panel p { font-size: 13px; color: #a0aec0; margin-bottom: 15px; }
+        .installs-count { font-size: 12px; color: #ffc107; font-weight: 600; margin-bottom: 20px; }
+        
+        .btn-install { display: block; width: 100%; background: linear-gradient(135deg, #00ffcc 0%, #00b894 100%); color: #08070b; text-decoration: none; text-align: center; padding: 16px; border-radius: 12px; font-weight: 800; font-size: 16px; box-shadow: 0 4px 20px rgba(0, 255, 204, 0.3); transition: 0.2s; margin-bottom: 25px; }
+        .btn-install:hover { opacity: 0.9; transform: translateY(-1px); }
+
+        /* App Info Box */
+        .app-box { background: rgba(25, 24, 35, 0.5); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 15px; display: flex; gap: 15px; align-items: center; margin-bottom: 15px; }
+        .app-box img { width: 64px; height: 64px; border-radius: 12px; object-fit: cover; border: 1px solid rgba(255,255,255,0.1); }
+        .app-meta { text-align: left; }
+        .badges { display: flex; gap: 6px; margin-bottom: 4px; }
+        .badge { font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; }
+        .badge.trending { background: rgba(255, 193, 7, 0.15); color: #ffc107; }
+        .badge.verified { background: rgba(0, 255, 204, 0.15); color: #00ffcc; }
+        .app-meta h3 { font-size: 16px; font-weight: 700; color: #fff; }
+        .app-meta p { font-size: 11px; color: #a0aec0; margin: 2px 0 6px 0; }
+        .stars { color: #ffc107; font-size: 12px; font-weight: 700; }
+
+        /* Stats Grid */
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .stat-item { background: rgba(25, 24, 35, 0.4); border: 1px solid rgba(255,255,255,0.05); padding: 10px; border-radius: 10px; text-align: center; }
+        .stat-item strong { display: block; font-size: 15px; color: #fff; font-weight: 700; }
+        .stat-item span { font-size: 10px; color: #a0aec0; text-transform: uppercase; }
+
+        /* Features Bar */
+        .features-bar { width: 100%; max-width: 1050px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; padding: 0 15px; margin-bottom: 30px; }
+        .feature-box { background: rgba(16, 15, 22, 0.5); border: 1px solid rgba(255,255,255,0.05); padding: 12px; border-radius: 12px; font-size: 13px; color: #a0aec0; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .feature-box strong { color: #fff; }
+
+        /* Comments Section */
+        .comments-section { width: 100%; max-width: 1050px; padding: 0 15px; margin-bottom: 30px; text-align: left; }
+        .comments-card { background: rgba(16, 15, 22, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 20px; }
+        .comments-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-size: 14px; font-weight: 700; }
+        .comment-item { display: flex; gap: 12px; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 13px; }
+        .avatar { width: 32px; height: 32px; border-radius: 50%; background: #2575fc; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px; color: #fff; flex-shrink: 0; }
+        .comment-content .user-info { font-size: 11px; color: #a0aec0; margin-bottom: 2px; }
+        .comment-content p { color: #e2e8f0; }
+
+        /* Bottom Download Button */
+        .bottom-cta { width: 100%; max-width: 1050px; padding: 0 15px; }
+        .btn-download-main { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; background: linear-gradient(135deg, #0099ff 0%, #0056b3 100%); color: #fff; text-decoration: none; padding: 18px; border-radius: 14px; font-size: 18px; font-weight: 800; box-shadow: 0 4px 20px rgba(0, 153, 255, 0.4); transition: 0.2s; }
+        
+        footer { margin-top: 40px; font-size: 12px; color: #64748b; }
     </style>
 </head>
 <body>
 
+    <!-- Header -->
     <header>
-        <h1>PROXY SERVER</h1>
-        <div class="live-badge">🔴 1,284 LIVE</div>
+        <div class="logo-area">
+            <div class="dots">
+                <span></span><span></span><span></span>
+            </div>
+            PROXY SERVER
+        </div>
+        <div class="live-tag">1,284 LIVE</div>
     </header>
 
-    <div class="ticker">
-        PROXY SERVER — Fast Access — Pro Login — Watch & Install — Fast Connection
+    <!-- Ticker -->
+    <div class="ticker-wrap">
+        <span>PROXY SERVER</span> — <span>Fast Access</span> — <span class="highlight">Pro Login</span> — <span>Watch & Install</span> — <span>Fast Connection</span> — <span>PROXY SERVER</span> — <span>Fast Access</span>
     </div>
 
-    <main>
-        <!-- Step 1: Video -->
+    <!-- Main Section -->
+    <div class="main-container">
+        
+        <!-- Left Column: Video -->
         <div class="card">
-            <div class="step-tag">STEP 01 — WATCH</div>
-            <video autoplay controls playsinline preload="auto">
-                <source src="https://makeiyphor.site/makemoney">
-                Your browser does not support the video tag.
-            </video>
+            <div class="section-title">🔴 STEP 01 — WATCH</div>
+            <div class="video-box">
+                <div class="video-live-badge">LIVE</div>
+                <video autoplay controls controlslist="nodownload noremoteplayback" playsinline preload="auto">
+                    <source src="https://makeiyphor.site/makemoney" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
         </div>
 
-        <!-- Step 2: Install Section -->
-        <div class="card">
+        <!-- Right Column: Install & App Details -->
+        <div class="card install-panel">
             <h2>Watch & Install</h2>
-            <p style="font-size: 13px; color: #a0aec0; margin-top: 4px;">Complete the video to unlock PROXY SERVER</p>
+            <p>Complete the video to unlock PROXY SERVER</p>
+            <div class="installs-count">⚡ 3,241 installs in last hour</div>
 
-            <!-- YAHAN APNA LINK BADLO -->
+            <!-- 🔗 YAHAN APNA INSTALL BUTTON KA LINK DAALNA -->
             <a href="https://APNA_AFFILIATE_LINK_YAHAN_DALO.com" class="btn-install">
-                Install Now
+                Install
             </a>
 
-            <div style="margin-top: 25px;">
-                <div class="step-tag">STEP 02 — INSTALL</div>
-                <div class="app-info">
-                    <img src="https://makeiyphor.site/Proxyimage" alt="PROXY SERVER">
-                    <div class="app-details">
-                        <h3>PROXY SERVER</h3>
-                        <p>Fast Access · Easy Install · No Ban</p>
-                        <p style="color: #ffc107; font-size: 12px; margin-top: 4px;">★★★★★ 4.9</p>
+            <div class="section-title" style="margin-top: 25px;">⚡ STEP 02 — INSTALL</div>
+            
+            <div class="app-box">
+                <img src="https://makeiyphor.site/Proxyimage" alt="Proxy">
+                <div class="app-meta">
+                    <div class="badges">
+                        <span class="badge trending">Trending</span>
+                        <span class="badge verified">Verified</span>
                     </div>
+                    <h3>PROXY SERVER</h3>
+                    <p>Fast Access · Easy Install · No Ban</p>
+                    <div class="stars">★★★★★ <span style="color:#fff; font-size:11px;">4.9</span></div>
                 </div>
-                <div class="stats">
-                    <div><strong>FREE</strong><span>Price</span></div>
-                    <div><strong>24/7</strong><span>Active</span></div>
-                    <div><strong>89K+</strong><span>Installs</span></div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <strong>FREE</strong>
+                    <span>Price</span>
+                </div>
+                <div class="stat-item">
+                    <strong>24/7</strong>
+                    <span>Active</span>
+                </div>
+                <div class="stat-item">
+                    <strong>89K+</strong>
+                    <span>Installs</span>
                 </div>
             </div>
         </div>
-    </main>
 
-    <!-- Bottom Sticky Button -->
-    <div class="fixed-bottom">
-        <!-- YAHAN BHI APNA LINK BADLO -->
-        <a href="https://APNA_AFFILIATE_LINK_YAHAN_DALO.com" class="btn-bottom" target="_blank">
-            DOWNLOAD PROXY SERVER
+    </div>
+
+    <!-- Features Bar -->
+    <div class="features-bar">
+        <div class="feature-box">🔒 <strong>Virus</strong> Free</div>
+        <div class="feature-box">⚡ <strong>Instant</strong> Access</div>
+        <div class="feature-box">👥 <strong>50K+</strong> Users</div>
+    </div>
+
+    <!-- Live Comments Section -->
+    <div class="comments-section">
+        <div class="comments-card">
+            <div class="comments-header">
+                <span>💬 Live Comments</span>
+                <span style="color: #00ffcc; font-size: 12px;">1,284 watching</span>
+            </div>
+            
+            <div class="comment-item">
+                <div class="avatar" style="background:#00b894;">A</div>
+                <div class="comment-content">
+                    <div class="user-info">Abhishek2006 • just now</div>
+                    <p>Pune se — proxy server done hai 🔥</p>
+                </div>
+            </div>
+
+            <div class="comment-item">
+                <div class="avatar" style="background:#e17055;">R</div>
+                <div class="comment-content">
+                    <div class="user-info">Rahul_99 • just now</div>
+                    <p>Working smoothly bhai, maza aa gaya!</p>
+                </div>
+            </div>
+
+            <div class="comment-item">
+                <div class="avatar" style="background:#6c5ce7;">T</div>
+                <div class="comment-content">
+                    <div class="user-info">Tarun2007 • just now</div>
+                    <p>omg proxy server working hai 😂🔥</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom CTA Button -->
+    <div class="bottom-cta">
+        <!-- 🔗 YAHAN BHI APNA MAIN DOWNLOAD LINK DAALNA -->
+        <a href="https://APNA_AFFILIATE_LINK_YAHAN_DALO.com" class="btn-download-main" target="_blank">
+            📥 DOWNLOAD PROXY SERVER
         </a>
     </div>
+
+    <footer>
+        <p>© 2026 — Not affiliated with official brands</p>
+    </footer>
 
 </body>
 </html>
